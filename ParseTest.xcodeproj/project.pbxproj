@@ -125,15 +125,11 @@
 			isa = PBXGroup;
 			children = (
 				25E5FAC219D2A35F0079AA7E /* AppDelegate.swift */,
-				25E5FB0219D2AA9A0079AA7E /* TimeLineViewControllerTableViewController.swift */,
 				25E5FAC419D2A35F0079AA7E /* ViewController.swift */,
+				25E5FB0919D315070079AA7E /* Compose */,
+				25E5FB0819D314ED0079AA7E /* Timeline */,
 				25E5FAC619D2A35F0079AA7E /* Main.storyboard */,
-				25E5FB0619D2AC1B0079AA7E /* MessageTableViewCell.swift */,
-				25E5FB0419D2AADF0079AA7E /* ComposeViewController.swift */,
-				25E5FAC919D2A35F0079AA7E /* Images.xcassets */,
-				25E5FACB19D2A35F0079AA7E /* LaunchScreen.xib */,
-				25E5FAE819D2A3AF0079AA7E /* ParseTest-Bridging-Header.h */,
-				25E5FAC019D2A35F0079AA7E /* Supporting Files */,
+				25E5FB0A19D315190079AA7E /* Junk */,
 			);
 			path = ParseTest;
 			sourceTree = "<group>";
@@ -181,6 +177,34 @@
 				25E5FAE419D2A37F0079AA7E /* ParseFacebookUtils.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		25E5FB0819D314ED0079AA7E /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				25E5FB0619D2AC1B0079AA7E /* MessageTableViewCell.swift */,
+				25E5FB0219D2AA9A0079AA7E /* TimeLineViewControllerTableViewController.swift */,
+			);
+			name = Timeline;
+			sourceTree = "<group>";
+		};
+		25E5FB0919D315070079AA7E /* Compose */ = {
+			isa = PBXGroup;
+			children = (
+				25E5FB0419D2AADF0079AA7E /* ComposeViewController.swift */,
+			);
+			name = Compose;
+			sourceTree = "<group>";
+		};
+		25E5FB0A19D315190079AA7E /* Junk */ = {
+			isa = PBXGroup;
+			children = (
+				25E5FAC919D2A35F0079AA7E /* Images.xcassets */,
+				25E5FACB19D2A35F0079AA7E /* LaunchScreen.xib */,
+				25E5FAE819D2A3AF0079AA7E /* ParseTest-Bridging-Header.h */,
+				25E5FAC019D2A35F0079AA7E /* Supporting Files */,
+			);
+			name = Junk;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
