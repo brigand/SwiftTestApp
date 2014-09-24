@@ -48,7 +48,7 @@ class TimeLineViewControllerTableViewController: UITableViewController, UIImageP
         }
     }
     
-    func openLoginDialogIfNeeded(){
+    func openLoginDialogIfNeeded() {
         if PFUser.currentUser() == nil {
             var loginAlert = UIAlertController(title: "Signup / Login", message: "Please sign up or login", preferredStyle: UIAlertControllerStyle.Alert)
             
@@ -63,52 +63,52 @@ class TimeLineViewControllerTableViewController: UITableViewController, UIImageP
                 textfield.secureTextEntry = true
             }
             
-            loginAlert.addAction(UIAlertAction(title: "Login",
-                style: UIAlertActionStyle.Default,
-                handler: {
-                    alertAction in
-                    if let textFields = loginAlert.textFields as? [UITextField] {
-                        let usernameField = textFields[0] as UITextField
-                        let passwordField = textFields[1] as UITextField
+            func makeAlert(title:String, handler: (String, String) -> Void) {
+                loginAlert.addAction(UIAlertAction(title: title,
+                    style: UIAlertActionStyle.Default,
+                    handler: {
+                        _ in
                         
-                        PFUser.logInWithUsernameInBackground(usernameField.text, password: passwordField.text) {
-                            user, error in
-                            if (user != nil) {
-                                println("Login success")
-                            }
-                            else {
-                                self.openLoginDialogIfNeeded()
-                            }
+                        if let textFields = loginAlert.textFields as? [UITextField] {
+                            let usernameField = textFields[0] as UITextField
+                            let passwordField = textFields[1] as UITextField
+                            
+                            handler(usernameField.text, passwordField.text)
                         }
-                    }
-            }))
+                        else {
+                            self.openLoginDialogIfNeeded()
+                        }
+                }))
+            }
             
-            loginAlert.addAction(UIAlertAction(title: "Signup",
-                style: UIAlertActionStyle.Default,
-                handler: {
-                    alertAction in
-                    if let textFields = loginAlert.textFields as? [UITextField] {
-                        let usernameField = textFields[0] as UITextField
-                        let passwordField = textFields[1] as UITextField
-                        
-                        var user = PFUser()
-                        user.username = usernameField.text
-                        user.password = passwordField.text
-                        user.signUpInBackgroundWithBlock {
-                            success, error in
-                            if error == nil {
-                                var imagePicker = UIImagePickerController()
-                                imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-                                imagePicker.delegate = self
-                                
-                                self.presentViewController(imagePicker, animated: true, completion: nil)
-                            }
-                            else {
-                                self.openLoginDialogIfNeeded()
-                            }
-                        }
+            makeAlert("Login", {
+                username, password in
+                PFUser.logInWithUsernameInBackground(username, password: password) {
+                        user, error in
+                        self.openLoginDialogIfNeeded()
+                }
+            })
+            
+            makeAlert("Signup", {
+                username, password in
+                var user = PFUser()
+                user.username = username
+                user.password = password
+                user.signUpInBackgroundWithBlock {
+                    success, error in
+                    
+                    if error != nil {
+                        self.openLoginDialogIfNeeded()
+                        return
                     }
-            }))
+                    
+                    var imagePicker = UIImagePickerController()
+                    imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                    imagePicker.delegate = self
+                    
+                    self.presentViewController(imagePicker, animated: true, completion: nil)
+                }
+            })
             
             self.presentViewController(loginAlert, animated: true, completion: nil)
         }
@@ -219,50 +219,4 @@ class TimeLineViewControllerTableViewController: UITableViewController, UIImageP
 
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView!, canEditRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView!, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath!) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView!, moveRowAtIndexPath fromIndexPath: NSIndexPath!, toIndexPath: NSIndexPath!) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView!, canMoveRowAtIndexPath indexPath: NSIndexPath!) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
